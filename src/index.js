@@ -13,7 +13,10 @@ refs.select.addEventListener('change', handleSelectSubmit);
 
 fetchBreeds()
   .then(data => onSuccess(data))
-  .catch(() => onError());
+  .catch(() => {
+    refs.select.classList.add('hidden');
+    onError();
+  });
 
 function handleSelectSubmit(e) {
   refs.loader.classList.remove('hidden');
@@ -22,9 +25,9 @@ function handleSelectSubmit(e) {
     .then(data => {
       refs.catInfo.classList.remove('hidden');
       refs.loader.classList.add('hidden');
-      if (data.length === 0) {
-        return new Error(error);
-      }
+      // if (data.length === 0) {
+      //   onError();
+      // }
       refs.catInfo.innerHTML = catInfoMarkup(data);
     })
     .catch(() => onError());
@@ -57,7 +60,6 @@ function onSuccess(data) {
 }
 
 function onError() {
-  refs.select.classList.add('hidden');
   iziToast.error({
     title: 'Error',
     message: `Oops! Something went wrong! Try reloading the page!`,
