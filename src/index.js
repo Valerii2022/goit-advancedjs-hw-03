@@ -4,19 +4,37 @@ const refs = {
   select: document.querySelector('.breed-select'),
   catInfo: document.querySelector('.cat-info'),
   loader: document.querySelector('.loader'),
-  error: document.querySelector('error'),
+  error: document.querySelector('.error'),
 };
 
 refs.select.addEventListener('change', handleSelectSubmit);
 
-fetchBreeds().then(data => {
-  refs.select.innerHTML = selectMarkup(data);
-});
+fetchBreeds()
+  .then(data => {
+    refs.select.classList.remove('hidden');
+    refs.loader.classList.add('hidden');
+    refs.select.innerHTML = selectMarkup(data);
+  })
+  .catch(() => {
+    refs.select.classList.add('hidden');
+    refs.error.classList.remove('hidden');
+  });
 
 function handleSelectSubmit(e) {
-  fetchCatInfo(e.target.value).then(data => {
-    refs.catInfo.innerHTML = catInfoMarkup(data);
-  });
+  refs.error.classList.add('hidden');
+  refs.loader.classList.remove('hidden');
+  fetchCatInfo(e.target.value)
+    .then(data => {
+      if (data.length === 0) {
+        refs.loader.classList.add('hidden');
+        return new Error(error);
+      }
+      refs.loader.classList.add('hidden');
+      refs.catInfo.innerHTML = catInfoMarkup(data);
+    })
+    .catch(() => {
+      refs.error.classList.remove('hidden');
+    });
 }
 
 function selectMarkup(array) {
