@@ -1,52 +1,69 @@
 import { fetchBreeds, fetchCatInfo } from './cat-api';
+import iziToast from 'izitoast';
+import 'izitoast/dist/css/iziToast.min.css';
+import SlimSelect from 'slim-select';
 
 const refs = {
   select: document.querySelector('.breed-select'),
   catInfo: document.querySelector('.cat-info'),
   loader: document.querySelector('.loader'),
-  error: document.querySelector('.error'),
 };
 
 refs.select.addEventListener('change', handleSelectSubmit);
 
 fetchBreeds()
-  .then(data => {
-    refs.select.classList.remove('hidden');
-    refs.loader.classList.add('hidden');
-    refs.select.innerHTML = selectMarkup(data);
-  })
-  .catch(() => {
-    refs.select.classList.add('hidden');
-    refs.error.classList.remove('hidden');
-  });
+  .then(data => onSuccess(data))
+  .catch(() => onError());
 
 function handleSelectSubmit(e) {
-  refs.error.classList.add('hidden');
   refs.loader.classList.remove('hidden');
+  refs.catInfo.classList.add('hidden');
   fetchCatInfo(e.target.value)
     .then(data => {
+      refs.catInfo.classList.remove('hidden');
+      refs.loader.classList.add('hidden');
       if (data.length === 0) {
-        refs.loader.classList.add('hidden');
         return new Error(error);
       }
-      refs.loader.classList.add('hidden');
       refs.catInfo.innerHTML = catInfoMarkup(data);
     })
-    .catch(() => {
-      refs.error.classList.remove('hidden');
-    });
-}
-
-function selectMarkup(array) {
-  return array
-    .map(({ id, name }) => `<option value=${id}>${name}</option>`)
-    .join('');
+    .catch(() => onError());
 }
 
 function catInfoMarkup(data) {
   return data
     .map(el => {
-      return `<div><img src=${el.url} alt=${el.breeds[0].name} width="400"><h2>${el.breeds[0].name}</h2><p>${el.breeds[0].description}</p><p>Temperament: ${el.breeds[0].temperament}</p></div>`;
+      return `<img src=${el.url} alt=${el.breeds[0].name} width="400">
+  <div class="content">
+    <h2>${el.breeds[0].name}</h2>
+    <p>${el.breeds[0].description}</p>
+    <p><span>Temperament:</span> ${el.breeds[0].temperament}</p>
+  </div>`;
     })
     .join('');
+}
+
+function onSuccess(data) {
+  refs.loader.classList.add('hidden');
+  refs.select.classList.remove('hidden');
+  const selectData = data.map(el => {
+    return { text: el.name, value: el.id };
+  });
+  new SlimSelect({
+    select: '.breed-select',
+    data: selectData,
+    settings: {},
+  });
+}
+
+function onError() {
+  refs.select.classList.add('hidden');
+  iziToast.error({
+    title: 'Error',
+    message: `Oops! Something went wrong! Try reloading the page!`,
+    layout: 2,
+    position: 'topLeft',
+    transitionIn: 'fadeInRight',
+    transitionOut: 'fadeOutLeft',
+  });
 }
