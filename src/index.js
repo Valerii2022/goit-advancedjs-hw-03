@@ -25,9 +25,6 @@ function handleSelectSubmit(e) {
     .then(data => {
       refs.catInfo.classList.remove('hidden');
       refs.loader.classList.add('hidden');
-      // if (data.length === 0) {
-      //   onError();
-      // }
       refs.catInfo.innerHTML = catInfoMarkup(data);
     })
     .catch(() => onError());
@@ -36,7 +33,7 @@ function handleSelectSubmit(e) {
 function catInfoMarkup(data) {
   return data
     .map(el => {
-      return `<img src=${el.url} alt=${el.breeds[0].name} width="400">
+      return `<div class="img-wrap"><img src=${el.url} alt=${el.breeds[0].name} ></div>
   <div class="content">
     <h2>${el.breeds[0].name}</h2>
     <p>${el.breeds[0].description}</p>

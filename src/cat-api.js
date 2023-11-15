@@ -14,7 +14,7 @@ export const fetchBreeds = async () => {
 };
 
 export const fetchCatInfo = async id => {
-  const BASE_URL = `https://api.thecatapi.com/v1/images/search?breed_ids=${id}125`;
+  const BASE_URL = `https://api.thecatapi.com/v1/images/search?breed_ids=${id}`;
   return axios
     .get(BASE_URL)
     .then(res => {
