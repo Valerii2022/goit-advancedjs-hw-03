@@ -1,30 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Homework 10</title>
+    
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/slim-select@latest/dist/slimselect.css"
+    />
+    <script type="module" crossorigin src="/goit-advancedjs-hw-03/commonHelpers.js"></script>
+    <link rel="modulepreload" crossorigin href="/goit-advancedjs-hw-03/assets/vendor-a52d55bd.js">
+    <link rel="stylesheet" href="/goit-advancedjs-hw-03/assets/vendor-e5212ee8.css">
+    <link rel="stylesheet" href="/goit-advancedjs-hw-03/assets/index-da7a471a.css">
+  </head>
 
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Homework 10</title>
-  
-  <link rel="stylesheet" href="https://unpkg.com/slim-select@latest/dist/slimselect.css" />
-  <script type="module" crossorigin src="/goit-advancedjs-hw-03/commonHelpers.js"></script>
-  <link rel="modulepreload" crossorigin href="/goit-advancedjs-hw-03/assets/vendor-a52d55bd.js">
-  <link rel="stylesheet" href="/goit-advancedjs-hw-03/assets/vendor-e5212ee8.css">
-  <link rel="stylesheet" href="/goit-advancedjs-hw-03/assets/index-b18655be.css">
-</head>
+  <body>
+    <div class="container">
+      <select class="breed-select hidden" id="select"></select>
+      <div class="loader-wrapper"><span class="loader"></span></div>
+      <div class="cat-info"></div>
+    </div>
 
-<body>
-  <div class="container">
-    <select class="breed-select hidden" id="select">
-    </select>
-    <p class="loader">Loading data, please wait...</p>
-    <div class="cat-info"></div>
-  </div>
-
-
-
-
-  
-</body>
-
+    
+  </body>
 </html>
