@@ -1,4 +1,4 @@
-import { fetchBreeds, fetchCatInfo } from './cat-api';
+import { fetchBreeds, fetchCatByBreed } from './cat-api';
 import iziToast from 'izitoast';
 import 'izitoast/dist/css/iziToast.min.css';
 import SlimSelect from 'slim-select';
@@ -21,7 +21,7 @@ fetchBreeds()
 function handleSelectSubmit(e) {
   refs.loader.classList.remove('hidden');
   refs.catInfo.classList.add('hidden');
-  fetchCatInfo(e.target.value)
+  fetchCatByBreed(e.target.value)
     .then(data => {
       refs.catInfo.classList.remove('hidden');
       refs.loader.classList.add('hidden');
@@ -52,7 +52,9 @@ function onSuccess(data) {
   new SlimSelect({
     select: '.breed-select',
     data: selectData,
-    settings: {},
+    settings: {
+      searchPlaceholder: 'Search your breed!',
+    },
   });
 }
 
