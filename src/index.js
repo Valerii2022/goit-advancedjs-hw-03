@@ -9,8 +9,6 @@ const refs = {
   loader: document.querySelector('.loader'),
 };
 
-refs.select.addEventListener('change', handleSelectSubmit);
-
 fetchBreeds()
   .then(data => onSuccess(data))
   .catch(() => {
@@ -23,6 +21,10 @@ function handleSelectSubmit(e) {
   refs.catInfo.classList.add('hidden');
   fetchCatByBreed(e.target.value)
     .then(data => {
+      if (data.length === 0) {
+        refs.loader.classList.add('hidden');
+        throw new Error();
+      }
       refs.catInfo.classList.remove('hidden');
       refs.loader.classList.add('hidden');
       refs.catInfo.innerHTML = catInfoMarkup(data);
@@ -53,9 +55,11 @@ function onSuccess(data) {
     select: '.breed-select',
     data: selectData,
     settings: {
+      placeholderText: 'Custom Placeholder Text',
       searchPlaceholder: 'Search your breed!',
     },
   });
+  refs.select.addEventListener('change', handleSelectSubmit);
 }
 
 function onError() {
